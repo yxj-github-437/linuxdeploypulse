@@ -58,7 +58,7 @@ do_start()
 {
     msg -n ":: Starting ${COMPONENT} ... "
     ## exec audio-server
-    chroot_exec -u ${USER_NAME} pulseaudio -d
+    chroot_exec -u ${USER_NAME} pulseaudio --start
     is_ok "fail" "done"
     return 0;
 }
