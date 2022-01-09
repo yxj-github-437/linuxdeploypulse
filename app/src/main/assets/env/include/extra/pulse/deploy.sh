@@ -39,9 +39,9 @@ do_configure()
 
     ####configure pulse
     local _str="load-module module-simple-protocol-tcp rate=44100 format=s16le channels=2 source=0 record=true port=12345"
-    if ! grep -q "${_str}" "${CHROOT_DIR}/etc/pulse/default.pa" ; then
-        echo '##pulse configure' >> "${CHROOT_DIR}/etc/pulse/default.pa"
-        echo ${_str} >> "${CHROOT_DIR}/etc/pulse/default.pa"
+    if [ -e "${CHROOT_DIR}/etc/pulse/default.pa.d"] ; then
+        echo '##pulse configure' > "${CHROOT_DIR}/etc/pulse/default.pa.d/pulse.pa"
+        echo ${_str} >> "${CHROOT_DIR}/etc/pulse/default.pa.d/pulse.pa"
     fi
 
     if [ ! -f "${CHROOT_DIR}/etc/asound.conf" ];then
