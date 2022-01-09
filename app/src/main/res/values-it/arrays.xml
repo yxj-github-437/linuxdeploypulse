@@ -1,0 +1,27 @@
+<resources>
+
+    <string-array name="theme_entries">
+        <item>Scuro</item>
+        <item>Chiaro</item>
+    </string-array>
+    <string-array name="target_type_entries">
+        <item>File</item>
+        <item>Direttorio</item>
+        <item>Partizione</item>
+        <item>RAM</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="desktop_entries">
+        <item>XTerm</item>
+        <item>LXDE</item>
+        <item>Xfce</item>
+        <item>MATE</item>
+        <item>Altro</item>
+    </string-array>
+    <string-array name="fb_freeze_entries">
+        <item>Non congelare</item>
+        <item>Pausa</item>
+        <item>Ferma</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,27 @@
+<resources>
+
+    <string-array name="theme_entries">
+        <item>Tmavá</item>
+        <item>Svetlá</item>
+    </string-array>
+    <string-array name="target_type_entries">
+        <item>Do súboru</item>
+        <item>Adresár</item>
+        <item>Na oddiel</item>
+        <item>Do pamäte RAM</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="desktop_entries">
+        <item>XTerm</item>
+        <item>LXDE</item>
+        <item>Xfce</item>
+        <item>MATE</item>
+        <item>Iné</item>
+    </string-array>
+    <string-array name="fb_freeze_entries">
+        <item>Nezmraziť</item>
+        <item>Pozastaviť</item>
+        <item>Zastaviť</item>
+    </string-array>
+
+</resources>

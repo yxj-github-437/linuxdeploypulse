@@ -1,0 +1,11 @@
+<resources>
+    <style name="DarkTheme" parent="Theme.AppCompat">
+        <item name="color_toolbar_border">@color/toolbarDark</item>
+        <item name="ic_color">?android:attr/colorControlNormal</item>
+    </style>
+
+    <style name="LightTheme" parent="Theme.AppCompat.Light">
+        <item name="color_toolbar_border">@color/toolbarLight</item>
+        <item name="ic_color">?android:attr/colorControlNormal</item>
+    </style>
+</resources>

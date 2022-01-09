@@ -1,0 +1,27 @@
+<resources>
+
+    <string-array name="theme_entries">
+        <item>Dunkel</item>
+        <item>Hell</item>
+    </string-array>
+    <string-array name="target_type_entries">
+        <item>Datei</item>
+        <item>Verzeichnis</item>
+        <item>Partition</item>
+        <item>RAM</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="desktop_entries">
+        <item>XTerm</item>
+        <item>LXDE</item>
+        <item>Xfce</item>
+        <item>MATE</item>
+        <item>Andere</item>
+    </string-array>
+    <string-array name="fb_freeze_entries">
+        <item>Nicht freeze</item>
+        <item>Pause</item>
+        <item>Stop</item>
+    </string-array>
+
+</resources>

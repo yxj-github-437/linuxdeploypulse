@@ -1,0 +1,27 @@
+<resources>
+
+    <string-array name="theme_entries">
+        <item>어두운</item>
+        <item>밝은</item>
+    </string-array>
+    <string-array name="target_type_entries">
+        <item>파일</item>
+        <item>폴더</item>
+        <item>파티션</item>
+        <item>메모리(RAM)</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="desktop_entries">
+        <item>XTerm</item>
+        <item>LXDE</item>
+        <item>Xfce</item>
+        <item>MATE</item>
+        <item>설치안함</item>
+    </string-array>
+    <string-array name="fb_freeze_entries">
+        <item>멈추지 않음</item>
+        <item>일시정지</item>
+        <item>정지</item>
+    </string-array>
+
+</resources>

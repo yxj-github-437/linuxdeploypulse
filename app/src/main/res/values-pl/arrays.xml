@@ -1,0 +1,27 @@
+<resources>
+
+    <string-array name="theme_entries">
+        <item>Ciemny</item>
+        <item>Jasny</item>
+    </string-array>
+    <string-array name="target_type_entries">
+        <item>Plik</item>
+        <item>Katalog</item>
+        <item>Partycja</item>
+        <item>RAM</item>
+        <item>Custom</item>
+    </string-array>
+    <string-array name="desktop_entries">
+        <item>XTerm</item>
+        <item>LXDE</item>
+        <item>Xfce</item>
+        <item>MATE</item>
+        <item>Inny</item>
+    </string-array>
+    <string-array name="fb_freeze_entries">
+        <item>Nie zatrzymuj</item>
+        <item>Wstrzymaj</item>
+        <item>Zatrzymaj</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,41 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/menu_start"
+        android:icon="@drawable/ic_play_arrow_24dp"
+        android:title="@string/menu_start"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/menu_stop"
+        android:icon="@drawable/ic_stop_24dp"
+        android:title="@string/menu_stop"
+        app:showAsAction="ifRoom|withText" />
+    <item
+        android:id="@+id/menu_properties"
+        android:icon="@drawable/ic_tune_24dp"
+        android:title="@string/menu_properties"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/menu_install"
+        android:title="@string/menu_install"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_configure"
+        android:title="@string/menu_configure"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_export"
+        android:title="@string/menu_export"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_status"
+        android:title="@string/menu_status"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_clear"
+        android:title="@string/menu_clear"
+        app:showAsAction="never" />
+
+</menu>

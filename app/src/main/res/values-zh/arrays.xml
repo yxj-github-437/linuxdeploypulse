@@ -1,0 +1,27 @@
+<resources>
+
+    <string-array name="theme_entries">
+        <item>暗色主题</item>
+        <item>亮色主题</item>
+    </string-array>
+    <string-array name="target_type_entries">
+        <item>镜像文件</item>
+        <item>目录</item>
+        <item>分区</item>
+        <item>RAM</item>
+        <item>自定义</item>
+    </string-array>
+    <string-array name="desktop_entries">
+        <item>XTerm</item>
+        <item>LXDE</item>
+        <item>Xfce</item>
+        <item>MATE</item>
+        <item>其它</item>
+    </string-array>
+    <string-array name="fb_freeze_entries">
+        <item>不冻结</item>
+        <item>暂停</item>
+        <item>停止</item>
+    </string-array>
+
+</resources>
