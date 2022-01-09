@@ -66,7 +66,7 @@ do_start()
 do_stop()
 {
     msg -n ":: Stopping ${COMPONENT} ... "
-    chroot_exec - ${USER_NAME} pulseaudio -k
+    chroot_exec -u ${USER_NAME} pulseaudio -k
     is_ok "fail" "done"
     return 0
 }
