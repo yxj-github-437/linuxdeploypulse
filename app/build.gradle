@@ -13,14 +13,14 @@ android {
         versionName "2.7.0"
         vectorDrawables.useSupportLibrary true
     }
-
+/*
     android.applicationVariants.all {
         variant ->
             variant.outputs.all {
                 outputFileName = "linuxdeploy-v${variant.versionName}-pulse-${variant.name}.apk"
             }
     }
-
+ */
     buildTypes {
         release {
             minifyEnabled true
