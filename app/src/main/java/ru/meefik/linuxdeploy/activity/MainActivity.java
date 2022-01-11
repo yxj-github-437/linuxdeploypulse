@@ -1,6 +1,6 @@
 package ru.meefik.linuxdeploy.activity;
 
-import  android.Manifest;
+import android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.IntentFilter;
