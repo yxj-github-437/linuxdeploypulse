@@ -1,6 +1,6 @@
 package ru.meefik.linuxdeploy.activity;
 
-import android.Manifest;
+import  android.Manifest;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -492,7 +492,8 @@ public class MainActivity extends AppCompatActivity implements
         };
 //        Toast.makeText(this,username,Toast.LENGTH_SHORT).show();
         if(username.equals("")){
-            return;
+            Toast.makeText(MainActivity.this,"Start Ssh Error",
+                    Toast.LENGTH_SHORT).show();
         }
 
         Intent intent = new Intent("android.intent.action.VIEW",
@@ -540,7 +541,8 @@ public class MainActivity extends AppCompatActivity implements
             //error
         };
         if(username.equals("")||userpasswd.equals("")){
-            return;
+            Toast.makeText(MainActivity.this,"Start Vnc Error",
+                    Toast.LENGTH_SHORT).show();
         }
 
         Intent intent = new Intent("android.intent.action.VIEW",
