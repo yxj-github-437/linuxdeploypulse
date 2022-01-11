@@ -44,7 +44,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.TreeMap;
 
 import ru.meefik.linuxdeploy.EnvUtils;
 import ru.meefik.linuxdeploy.Logger;
@@ -470,7 +469,7 @@ public class MainActivity extends AppCompatActivity implements
     * Start ssh client
     */
     private void startSshClient(View v){
-        String fileName = PrefStore.getEnvDir(this)+"/config"+"/"+
+        String fileName = PrefStore.getEnvDir(this)+"/config/"+
                 PrefStore.getProfileName(this)+".conf";
 //        Toast.makeText(this,fileName,Toast.LENGTH_SHORT).show();
         File confFile = new File(fileName);
@@ -516,7 +515,7 @@ public class MainActivity extends AppCompatActivity implements
      * Start ssh client
      */
     private void startVncClient(View v){
-        String fileName = PrefStore.getEnvDir(this)+"/config"+"/"+
+        String fileName = PrefStore.getEnvDir(this)+"/config/"+
                 PrefStore.getProfileName(this)+".conf";
         File confFile = new File(fileName);
         String username = "";
