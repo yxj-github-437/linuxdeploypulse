@@ -5,8 +5,7 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
+
 import androidx.preference.EditTextPreference;
 import androidx.preference.ListPreference;
 import androidx.preference.Preference;
@@ -311,4 +310,5 @@ public class PropertiesFragment extends PreferenceFragmentCompat implements
             }
         }
     }
+
 }

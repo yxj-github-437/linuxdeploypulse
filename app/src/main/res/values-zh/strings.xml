@@ -17,6 +17,8 @@
     <string name="menu_export">导出</string>
     <string name="menu_status">状态</string>
     <string name="menu_clear">清空</string>
+    <string name="menu_ssh">启动ssh</string>
+    <string name="menu_vnc">启动vnc</string>
     <string name="menu_add">新建</string>
     <string name="menu_edit">编辑</string>
     <string name="menu_delete">删除</string>

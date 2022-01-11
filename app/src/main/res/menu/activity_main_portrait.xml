@@ -21,5 +21,14 @@
         android:id="@+id/menu_clear"
         android:title="@string/menu_clear"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_ssh"
+        android:title="@string/menu_ssh"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/menu_vnc"
+        android:title="@string/menu_vnc"
+        app:showAsAction="never"
+        />
 
 </menu>

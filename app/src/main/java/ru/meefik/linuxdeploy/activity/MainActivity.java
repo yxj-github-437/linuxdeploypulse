@@ -1,6 +1,7 @@
 package ru.meefik.linuxdeploy.activity;
 
 import android.Manifest;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
@@ -39,6 +40,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.TreeMap;
+
 import ru.meefik.linuxdeploy.EnvUtils;
 import ru.meefik.linuxdeploy.Logger;
 import ru.meefik.linuxdeploy.PrefStore;
@@ -61,6 +68,7 @@ public class MainActivity extends AppCompatActivity implements
 
     private NetworkReceiver networkReceiver;
     private PowerReceiver powerReceiver;
+
 
 
     private NetworkReceiver getNetworkReceiver() {
@@ -205,6 +213,12 @@ public class MainActivity extends AppCompatActivity implements
                 break;
             case R.id.menu_clear:
                 clearLog();
+                break;
+            case R.id.menu_ssh:
+                startSshClient(null);
+                break;
+            case R.id.menu_vnc:
+                startVncClient(null);
                 break;
             case android.R.id.home:
                 if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -449,6 +463,102 @@ public class MainActivity extends AppCompatActivity implements
     private void openRepository() {
         Intent intent = new Intent(this, RepositoryActivity.class);
         startActivity(intent);
+    }
+
+
+    /*
+    * Start ssh client
+    */
+    private void startSshClient(View v){
+        String fileName = PrefStore.getEnvDir(this)+"/config"+"/"+
+                PrefStore.getProfileName(this)+".conf";
+//        Toast.makeText(this,fileName,Toast.LENGTH_SHORT).show();
+        File confFile = new File(fileName);
+        String username = "";
+        try (BufferedReader br = new BufferedReader(new FileReader(confFile))){
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.startsWith("#") && !line.isEmpty()) {
+                    String[] pair = line.split("=");
+                    String key = pair[0];
+                    String value = pair[1];
+                    if (key.equals("USER_NAME")) {
+                        username = value.replaceAll("\"","");
+                        break;
+                    }
+                }
+            }
+        }catch (IOException e) {
+            //error
+        };
+//        Toast.makeText(this,username,Toast.LENGTH_SHORT).show();
+        if(username.equals("")){
+            return;
+        }
+
+        Intent intent = new Intent("android.intent.action.VIEW",
+                Uri.parse("ssh://"+username+"@localhost:22"));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if(intent != null ) {
+            try {
+                startActivity(intent);
+            }catch (ActivityNotFoundException e){
+                //error
+                Toast.makeText(this,"Not found ssh client",Toast.LENGTH_SHORT).show();
+            }
+        } else{
+            Toast.makeText(MainActivity.this,"Start Ssh Error",
+                    Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /*
+     * Start ssh client
+     */
+    private void startVncClient(View v){
+        String fileName = PrefStore.getEnvDir(this)+"/config"+"/"+
+                PrefStore.getProfileName(this)+".conf";
+        File confFile = new File(fileName);
+        String username = "";
+        String userpasswd = "";
+        try (BufferedReader br = new BufferedReader(new FileReader(confFile))){
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.startsWith("#") && !line.isEmpty()) {
+                    String[] pair = line.split("=");
+                    String key = pair[0];
+                    String value = pair[1];
+                    if (key.equals("USER_NAME")) {
+                        username = value.replaceAll("\"","");
+                    }
+                    if(key.equals("USER_PASSWORD")){
+                        userpasswd = value.replaceAll("\"","");
+                        break;
+                    }
+                }
+            }
+        }catch (IOException e) {
+            //error
+        };
+        if(username.equals("")||userpasswd.equals("")){
+            return;
+        }
+
+        Intent intent = new Intent("android.intent.action.VIEW",
+                Uri.parse("vnc://127.0.0.1:5900/?VncUsername="+
+                username+"&VncPassword="+userpasswd));
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        if(intent != null ) {
+           try {
+               startActivity(intent);
+           }catch (ActivityNotFoundException e){
+               //error
+               Toast.makeText(this,"Not found vnc client",Toast.LENGTH_SHORT).show();
+           }
+        } else{
+            Toast.makeText(MainActivity.this,"Start Vnc Error",
+                    Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**

@@ -18,6 +18,8 @@
     <string name="menu_export">Export</string>
     <string name="menu_status">Status</string>
     <string name="menu_clear">Clear</string>
+    <string name="menu_ssh">Ssh Client</string>
+    <string name="menu_vnc">Vnc Client</string>
     <string name="menu_add">New</string>
     <string name="menu_edit">Edit</string>
     <string name="menu_delete">Delete</string>

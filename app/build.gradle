@@ -10,7 +10,7 @@ android {
         // API 28 must be frozen for binary execution
         targetSdkVersion 28
         versionCode 437
-        versionName "2.7.0"
+        versionName "2.8.0"
         vectorDrawables.useSupportLibrary true
     }
 /*
