@@ -339,9 +339,13 @@ public class EnvUtils {
      */
     private static boolean makeMainScript(Context c) {
         String scriptFile = PrefStore.getBinDir(c) + "/linuxdeploy";
-
+        String Arch = PrefStore.getArch();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(scriptFile))) {
-            bw.write("#!/system/bin/sh\n");
+            if(Arch.equals("arm")||Arch.equals("arm_64")) {
+                bw.write("#!" + PrefStore.getPath(c) + "/ash\n");
+            }else if(Arch.equals("x86")||Arch.equals("x86_64")) {
+                bw.write("#!/system/bin/sh\n");
+            }
             bw.write("PATH=" + PrefStore.getPath(c) + ":$PATH\n");
             bw.write("ENV_DIR=\"" + PrefStore.getEnvDir(c) + "\"\n");
             bw.write(". \"${ENV_DIR}/cli.sh\"\n");
