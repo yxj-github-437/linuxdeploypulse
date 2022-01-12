@@ -341,7 +341,7 @@ public class EnvUtils {
         String scriptFile = PrefStore.getBinDir(c) + "/linuxdeploy";
 
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(scriptFile))) {
-            bw.write("#!" + PrefStore.getShell(c) + "\n");
+            bw.write("#!/system/bin/sh\n");
             bw.write("PATH=" + PrefStore.getPath(c) + ":$PATH\n");
             bw.write("ENV_DIR=\"" + PrefStore.getEnvDir(c) + "\"\n");
             bw.write(". \"${ENV_DIR}/cli.sh\"\n");

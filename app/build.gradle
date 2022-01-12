@@ -7,10 +7,9 @@ android {
     defaultConfig {
         applicationId 'ru.meefik.linuxdeploy'
         minSdkVersion 21
-        // API 28 must be frozen for binary execution
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 437
-        versionName "2.8.0"
+        versionName "2.8.1"
         vectorDrawables.useSupportLibrary true
     }
 /*

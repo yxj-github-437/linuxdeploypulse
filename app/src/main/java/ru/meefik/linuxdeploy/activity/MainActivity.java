@@ -214,10 +214,10 @@ public class MainActivity extends AppCompatActivity implements
                 clearLog();
                 break;
             case R.id.menu_ssh:
-                startSshClient(null);
+                startSshClient();
                 break;
             case R.id.menu_vnc:
-                startVncClient(null);
+                startVncClient();
                 break;
             case android.R.id.home:
                 if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -468,7 +468,7 @@ public class MainActivity extends AppCompatActivity implements
     /*
     * Start ssh client
     */
-    private void startSshClient(View v){
+    private void startSshClient(){
         String fileName = PrefStore.getEnvDir(this)+"/config/"+
                 PrefStore.getProfileName(this)+".conf";
 //        Toast.makeText(this,fileName,Toast.LENGTH_SHORT).show();
@@ -515,7 +515,7 @@ public class MainActivity extends AppCompatActivity implements
     /*
      * Start ssh client
      */
-    private void startVncClient(View v){
+    private void startVncClient(){
         String fileName = PrefStore.getEnvDir(this)+"/config/"+
                 PrefStore.getProfileName(this)+".conf";
         File confFile = new File(fileName);
