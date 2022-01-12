@@ -39,9 +39,12 @@ do_configure()
 
     ####configure pulse
     local _str="load-module module-simple-protocol-tcp rate=44100 format=s16le channels=2 source=0 record=true port=12345"
-    if [ -e "${CHROOT_DIR}/etc/pulse/default.pa.d"] ; then
+    if [ -e "${CHROOT_DIR}/etc/pulse/default.pa.d" ] ; then
         echo '##pulse configure' > "${CHROOT_DIR}/etc/pulse/default.pa.d/pulse.pa"
         echo ${_str} >> "${CHROOT_DIR}/etc/pulse/default.pa.d/pulse.pa"
+    elif ! grep -q "${_str}" "${CHROOT_DIR}/etc/pulse/default.pa" ;then
+        echo "##pulse config" >> "${CHROOT_DIR}/etc/pulse/default.pa"
+        echo ${_str} >> "${CHROOT_DIR}/etc/pulse/default.pa"
     fi
 
     if [ ! -f "${CHROOT_DIR}/etc/asound.conf" ];then
@@ -66,7 +69,7 @@ do_start()
 do_stop()
 {
     msg -n ":: Stopping ${COMPONENT} ... "
-    chroot_exec -u ${USER_NAME} pulseaudio -k
+    chroot_exec -u ${USER_NAME} pulseaudio --kill
     is_ok "fail" "done"
     return 0
 }
