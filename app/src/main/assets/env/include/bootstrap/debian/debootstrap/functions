@@ -4,7 +4,7 @@ smallyes() {
 	YES="${1-y}"
 	while echo "$YES" 2>/dev/null ; do : ; done
 }
-
+ar
 in_path () {
 	local OLD_IFS="$IFS"
 	IFS=":"
@@ -967,6 +967,7 @@ extract_ar_deb_data () {
 		data.tar.bz2) cat_cmd=bzcat ;;
 		data.tar.xz)  cat_cmd=xzcat ;;
 		data.tar)     cat_cmd=cat ;;
+		data.tar.zst)        cat_cmd=zstd ;;
 		*) error 1 UNKNOWNDATACOMP "Unknown compression type for %s in %s" "$tarball" "$pkg" ;;
 	esac
 
