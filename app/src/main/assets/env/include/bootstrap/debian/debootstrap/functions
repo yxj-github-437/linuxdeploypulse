@@ -4,7 +4,7 @@ smallyes() {
 	YES="${1-y}"
 	while echo "$YES" 2>/dev/null ; do : ; done
 }
-ar
+
 in_path () {
 	local OLD_IFS="$IFS"
 	IFS=":"
