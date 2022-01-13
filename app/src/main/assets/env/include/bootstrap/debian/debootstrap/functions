@@ -972,7 +972,12 @@ extract_ar_deb_data () {
 	esac
 
 	if in_path "$cat_cmd"; then
-		ar -p "$pkg" "$tarball" | "$cat_cmd" | tar $EXTRACT_DEB_TAR_OPTIONS -xf -
+	    case "$cat_cmd" in
+	        zstd)
+	            ar -p "$pkg" "$tarball" | "$cat_cmd" -d | tar $EXTRACT_DEB_TAR_OPTIONS -xf - ;;
+	        *)
+		        ar -p "$pkg" "$tarball" | "$cat_cmd" | tar $EXTRACT_DEB_TAR_OPTIONS -xf - ;;
+		esac
 	else
 		error 1 UNPACKCMDUNVL "Extracting %s requires the %s command, which is not available" "$pkg" "$cat_cmd"
 	fi
