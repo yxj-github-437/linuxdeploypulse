@@ -31,8 +31,14 @@ apt_repository()
     # Fix for resolv problem in xenial
     echo 'Debug::NoDropPrivs true;' > "${CHROOT_DIR}/etc/apt/apt.conf.d/00no-drop-privs"
     # Update sources.list
-    echo "deb ${SOURCE_PATH} ${SUITE} main universe multiverse" > "${CHROOT_DIR}/etc/apt/sources.list"
-    echo "deb-src ${SOURCE_PATH} ${SUITE} main universe multiverse" >> "${CHROOT_DIR}/etc/apt/sources.list"
+    echo "deb ${SOURCE_PATH} ${SUITE} main restricted universe multiverse" > "${CHROOT_DIR}/etc/apt/sources.list"
+    echo "# deb-src ${SOURCE_PATH} ${SUITE} main restricted universe multiverse" >> "${CHROOT_DIR}/etc/apt/sources.list"
+    echo "deb ${SOURCE_PATH} ${SUITE}-updates main restricted universe multiverse" >> "${CHROOT_DIR}/etc/apt/sources.list"
+    echo "# deb-src ${SOURCE_PATH} ${SUITE}-updates main restricted universe multiverse" >> "${CHROOT_DIR}/etc/apt/sources.list"
+    echo "deb ${SOURCE_PATH} ${SUITE}-backports main restricted universe multiverse" >> "${CHROOT_DIR}/etc/apt/sources.list"
+    echo "# deb-src ${SOURCE_PATH} ${SUITE}-backports main restricted universe multiverse" >> "${CHROOT_DIR}/etc/apt/sources.list"
+    echo "deb ${SOURCE_PATH} ${SUITE}-security main restricted universe multiverse" >> "${CHROOT_DIR}/etc/apt/sources.list"
+    echo "# deb-src ${SOURCE_PATH} ${SUITE}-security  main restricted universe multiverse" >> "${CHROOT_DIR}/etc/apt/sources.list"
     # Fix for upstart
     if [ -e "${CHROOT_DIR}/sbin/initctl" ]; then
         chroot_exec -u root dpkg-divert --local --rename --add /sbin/initctl

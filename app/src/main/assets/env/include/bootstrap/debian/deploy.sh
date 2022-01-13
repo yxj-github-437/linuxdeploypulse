@@ -40,7 +40,11 @@ apt_repository()
     echo 'apt::sandbox::seccomp "false";' > "${CHROOT_DIR}/etc/apt/apt.conf.d/999seccomp-off"
     # Update sources.list
     echo "deb ${SOURCE_PATH} ${SUITE} main contrib non-free" > "${CHROOT_DIR}/etc/apt/sources.list"
-    echo "deb-src ${SOURCE_PATH} ${SUITE} main contrib non-free" >> "${CHROOT_DIR}/etc/apt/sources.list"
+    echo "# deb-src ${SOURCE_PATH} ${SUITE} main contrib non-free" >> "${CHROOT_DIR}/etc/apt/sources.list"
+    echo "deb ${SOURCE_PATH} ${SUITE}-updates main contrib non-free" >> "${CHROOT_DIR}/etc/apt/sources.list"
+    echo "# deb-src ${SOURCE_PATH} ${SUITE}-updates main contrib non-free" >> "${CHROOT_DIR}/etc/apt/sources.list"
+    echo "deb ${SOURCE_PATH} ${SUITE}-backports main contrib non-free" >> "${CHROOT_DIR}/etc/apt/sources.list"
+    echo "# deb-src ${SOURCE_PATH} ${SUITE}-backports main contrib non-free" >> "${CHROOT_DIR}/etc/apt/sources.list"
 }
 
 do_install()
