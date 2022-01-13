@@ -860,7 +860,7 @@ rootfs_export()
         is_ok "fail" "done" || return 1
     ;;
     *)
-        msg "Incorrect filename, supported only gz, bz2 or xz archives."
+        msg "Incorrect filename, supported only gz, bz2 , xz or zst archives."
         return 1
     ;;
     esac
