@@ -405,6 +405,52 @@ public class MainActivity extends AppCompatActivity implements
      * Container deploy action
      */
     private void containerDeploy() {
+
+        String fileName = PrefStore.getEnvDir(this)+"/config/"+
+                PrefStore.getProfileName(this)+".conf";
+        File confFile = new File(fileName);
+        String target_path = "";
+        String target_type = "";
+        try (BufferedReader br = new BufferedReader(new FileReader(confFile))){
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.startsWith("#") && !line.isEmpty()) {
+                    String[] pair = line.split("=");
+                    String key = pair[0];
+                    String value = pair[1];
+                    if (key.equals("TARGET_PATH")) {
+                        target_path = value.replaceAll("\"","");
+                    }
+                    if (key.equals("TARGET_TYPE")) {
+                        target_type = value.replaceAll("\"","");
+                    }
+                }
+            }
+        }catch (IOException e) {
+            //error
+        };
+        target_path = target_path.replace("${ENV_DIR}",PrefStore.getEnvDir(this));
+        File target_file = new File(target_path);
+        if(target_type.equals("file")){
+            if(!target_path.equals("")) {
+                if(target_file.exists()){
+                    Toast.makeText(this,
+                            "File is existed,cannot deploy again",
+                            Toast.LENGTH_SHORT).show();
+                    return ;
+                }
+            }
+        }else if(target_type.equals("directory")){
+            if(!target_path.equals("")){
+                if(target_file.isDirectory()){
+                    Toast.makeText(this,
+                            "Directory is existed,cannot deploy again",
+                            Toast.LENGTH_SHORT).show();
+                    return ;
+                }
+            }
+        }
+        Toast.makeText(this,target_path,Toast.LENGTH_SHORT).show();
         new AlertDialog.Builder(this)
                 .setTitle(R.string.title_install_dialog)
                 .setMessage(R.string.message_install_dialog)
