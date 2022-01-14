@@ -348,7 +348,7 @@ public class MainActivity extends AppCompatActivity implements
                         (dialog, id) -> {
                             // actions
                             Handler h = new Handler();
-                            if (PrefStore.isXserver(getApplicationContext())
+                             if (PrefStore.isXserver(getApplicationContext())
                                     && PrefStore.isXsdl(getApplicationContext())) {
                                 PackageManager pm = getPackageManager();
                                 Intent intent = pm.getLaunchIntentForPackage("x.org.server");
@@ -406,6 +406,7 @@ public class MainActivity extends AppCompatActivity implements
      */
     private void containerDeploy() {
 
+        /* Make sure wherther file or path exists */
         String fileName = PrefStore.getEnvDir(this)+"/config/"+
                 PrefStore.getProfileName(this)+".conf";
         File confFile = new File(fileName);
@@ -451,6 +452,7 @@ public class MainActivity extends AppCompatActivity implements
             }
         }
 
+        /* Deploy */
         new AlertDialog.Builder(this)
                 .setTitle(R.string.title_install_dialog)
                 .setMessage(R.string.message_install_dialog)

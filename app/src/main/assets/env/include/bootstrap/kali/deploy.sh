@@ -16,6 +16,23 @@ fi
 
 [ -n "${SOURCE_PATH}" ] || SOURCE_PATH="http://http.kali.org/kali/"
 
+
+apt_repository()
+{
+    # Backup sources.list
+    if [ -e "${CHROOT_DIR}/etc/apt/sources.list" ]; then
+        cp "${CHROOT_DIR}/etc/apt/sources.list" "${CHROOT_DIR}/etc/apt/sources.list.bak"
+    fi
+    # Fix for resolv problem
+    echo 'Debug::NoDropPrivs "true";' > "${CHROOT_DIR}/etc/apt/apt.conf.d/00no-drop-privs"
+    # Fix for seccomp policy
+    echo 'apt::sandbox::seccomp "false";' > "${CHROOT_DIR}/etc/apt/apt.conf.d/999seccomp-off"
+    # Update sources.list
+    echo "deb ${SOURCE_PATH} ${SUITE} main contrib non-free" > "${CHROOT_DIR}/etc/apt/sources.list"
+    echo "# deb-src ${SOURCE_PATH} ${SUITE} main contrib non-free" >> "${CHROOT_DIR}/etc/apt/sources.list"
+}
+
+
 do_help()
 {
 cat <<EOF
