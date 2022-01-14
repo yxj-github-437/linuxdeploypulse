@@ -450,6 +450,7 @@ public class MainActivity extends AppCompatActivity implements
                 }
             }
         }
+
         new AlertDialog.Builder(this)
                 .setTitle(R.string.title_install_dialog)
                 .setMessage(R.string.message_install_dialog)
