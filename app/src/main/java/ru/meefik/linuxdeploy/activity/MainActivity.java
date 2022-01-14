@@ -450,7 +450,6 @@ public class MainActivity extends AppCompatActivity implements
                 }
             }
         }
-        Toast.makeText(this,target_path,Toast.LENGTH_SHORT).show();
         new AlertDialog.Builder(this)
                 .setTitle(R.string.title_install_dialog)
                 .setMessage(R.string.message_install_dialog)
