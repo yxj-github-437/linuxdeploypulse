@@ -519,7 +519,10 @@ public class MainActivity extends AppCompatActivity implements
     private void startSshClient(){
         String fileName = PrefStore.getEnvDir(this)+"/config/"+
                 PrefStore.getProfileName(this)+".conf";
-//        Toast.makeText(this,fileName,Toast.LENGTH_SHORT).show();
+
+        /*
+        * get username and ssh_port
+         */
         File confFile = new File(fileName);
         String username = "";
         String ssh_port = "";
@@ -542,7 +545,7 @@ public class MainActivity extends AppCompatActivity implements
         }catch (IOException e) {
             //error
         };
-//        Toast.makeText(this,username,Toast.LENGTH_SHORT).show();
+
         if(username.equals("")){
             Toast.makeText(MainActivity.this,"Start Ssh Error",
                     Toast.LENGTH_SHORT).show();
@@ -571,6 +574,9 @@ public class MainActivity extends AppCompatActivity implements
         String fileName = PrefStore.getEnvDir(this)+"/config/"+
                 PrefStore.getProfileName(this)+".conf";
         File confFile = new File(fileName);
+        /*
+        * get username userpasswd vnc_display
+        */
         String username = "";
         String userpasswd = "";
         String vnc_display = "";
@@ -646,7 +652,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public void PlayMusic(View view)
     {
-        Toast.makeText(this,"Playing Music",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(this,"Playing Music",Toast.LENGTH_SHORT).show();
 
         int mSampleRate;
         boolean mStereo;
@@ -659,11 +665,29 @@ public class MainActivity extends AppCompatActivity implements
         i.setPackage(getPackageName());
         String ipAddr = "127.0.0.1";
         String portStr = "12345";
-        if (ipAddr.equals("")) {
-            Toast.makeText(getApplicationContext(), "Invalid address",
-                    Toast.LENGTH_SHORT).show();
-            return;
-        }
+
+        /* get pulse_port */
+        String fileName = PrefStore.getEnvDir(this)+"/config/"+
+                PrefStore.getProfileName(this)+".conf";
+        File confFile = new File(fileName);
+        try (BufferedReader br = new BufferedReader(new FileReader(confFile))){
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (!line.startsWith("#") && !line.isEmpty()) {
+                    String[] pair = line.split("=");
+                    String key = pair[0];
+                    String value = pair[1];
+                    if(key.equals("PULSE_PORT")) {
+                        portStr = value.replaceAll("\"", "");
+                        break;
+                    }
+                }
+            }
+        }catch (IOException e) {
+            //error
+        };
+
+
         if (portStr.equals("")) {
             Toast.makeText(getApplicationContext(), "Invalid port",
                     Toast.LENGTH_SHORT).show();
@@ -683,18 +707,12 @@ public class MainActivity extends AppCompatActivity implements
         }
         Log.d(TAG, "port:" + audioPort);
         i.putExtra(MusicService.DATA_AUDIO_PORT, audioPort);
-/*
-        // Extract sample rate
-        Spinner sampleRateSpinner =
-                findViewById(R.id.spinnerSampleRate);
-        String rateStr =
-                String.valueOf(sampleRateSpinner.getSelectedItem());
-*/
-        String[] rateSplit = {"44100"};//rateStr.split(" ");
 
-        if (rateSplit.length != 0) {
+        String rateSplit = "44100";
+
+        if (rateSplit.equals("")) {
             try {
-                mSampleRate = Integer.parseInt(rateSplit[0]);
+                mSampleRate = Integer.parseInt(rateSplit);
                 Log.i(TAG, "rate:" + mSampleRate);
                 i.putExtra(MusicService.DATA_SAMPLE_RATE, mSampleRate);
             } catch (NumberFormatException nfe) {
@@ -703,18 +721,13 @@ public class MainActivity extends AppCompatActivity implements
             }
         }
 
-        // Extract stereo/mono setting
-//        Spinner stereoSpinner = findViewById(R.id.stereo);
-//        String stereoSettingString =
-//                String.valueOf(stereoSpinner.getSelectedItem());
-        String stereoKey = "Stereo";//getResources().getString(R.string.stereoKey);
-        mStereo = true;//stereoSettingString.contains(stereoKey);
+        String stereoKey = "Stereo";
+        mStereo = true;
         i.putExtra(MusicService.DATA_STEREO, mStereo);
         Log.i(TAG, "stereo:" + mStereo);
 
-        // Get the latest buffer entry
-//        EditText e = findViewById(R.id.editTextBufferSize);
-        String bufferMsString = "50";//e.getText().toString();
+
+        String bufferMsString = "50";
         if (bufferMsString.length() != 0) {
             try {
                 mBufferMs = Integer.parseInt(bufferMsString);
@@ -726,15 +739,12 @@ public class MainActivity extends AppCompatActivity implements
             }
         }
 
-        // Get the retry checkbox
-//        mRetry = ((CheckBox) findViewById(R.id.checkBoxRetry)).isChecked();
+
         mRetry = false;
         Log.d(TAG, "retry:" + mRetry);
         i.putExtra(MusicService.DATA_RETRY, mRetry);
 
-        // Extract the retry state
-        // Save current settings
-//        savePrefs();
+        /* start service */
         startService(i);
 
     }
@@ -742,6 +752,10 @@ public class MainActivity extends AppCompatActivity implements
     private void Stopmusic()
     {
         Toast.makeText(this,"Stop Play",Toast.LENGTH_SHORT).show();
+        /* stop service */
+        Intent i = new Intent(MusicService.ACTION_STOP);
+        i.setPackage(getPackageName());
+        startService(i);
     }
 
 }

@@ -38,13 +38,19 @@ do_configure()
     #fi
 
     ####configure pulse
-    local _str="load-module module-simple-protocol-tcp rate=44100 format=s16le channels=2 source=0 record=true port=12345"
+    local _str="load-module module-simple-protocol-tcp rate=44100 format=s16le channels=2 source=0 record=true port=${PULSE_PORT}"
     if [ -e "${CHROOT_DIR}/etc/pulse/default.pa.d" ] ; then
         echo '##pulse configure' > "${CHROOT_DIR}/etc/pulse/default.pa.d/pulse.pa"
         echo ${_str} >> "${CHROOT_DIR}/etc/pulse/default.pa.d/pulse.pa"
-    elif ! grep -q "${_str}" "${CHROOT_DIR}/etc/pulse/default.pa" ;then
-        echo "##pulse config" >> "${CHROOT_DIR}/etc/pulse/default.pa"
-        echo ${_str} >> "${CHROOT_DIR}/etc/pulse/default.pa"
+    else
+        mkdir -p "${CHROOT_DIR}/etc/pulse/default.pa.d"
+        if ! grep -q "/etc/pulse/default.pa.d" "${CHROOT_DIR}/etc/pulse/default.pa" ;then
+            echo "##pulse configure" >> "${CHROOT_DIR}/etc/pulse/default.pa"
+            echo ".nofail" >> "${CHROOT_DIR}/etc/pulse/default.pa"
+            echo ".include /etc/pulse/default.pa.d" >> "${CHROOT_DIR}/etc/pulse/default.pa"
+        fi
+        echo '##pulse configure' > "${CHROOT_DIR}/etc/pulse/default.pa.d/pulse.pa"
+        echo ${_str} >> "${CHROOT_DIR}/etc/pulse/default.pa.d/pulse.pa"
     fi
 
     if [ ! -f "${CHROOT_DIR}/etc/asound.conf" ];then
