@@ -652,7 +652,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public void PlayMusic(View view)
     {
-        //Toast.makeText(this,"Playing Music",Toast.LENGTH_SHORT).show();
+        Toast.makeText(this,"Start Musicservice",Toast.LENGTH_SHORT).show();
 
         int mSampleRate;
         boolean mStereo;
