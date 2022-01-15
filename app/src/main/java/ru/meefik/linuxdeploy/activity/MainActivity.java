@@ -348,7 +348,7 @@ public class MainActivity extends AppCompatActivity implements
                         (dialog, id) -> {
                             // actions
                             Handler h = new Handler();
-                             if (PrefStore.isXserver(getApplicationContext())
+                            if (PrefStore.isXserver(getApplicationContext())
                                     && PrefStore.isXsdl(getApplicationContext())) {
                                 PackageManager pm = getPackageManager();
                                 Intent intent = pm.getLaunchIntentForPackage("x.org.server");
@@ -522,6 +522,7 @@ public class MainActivity extends AppCompatActivity implements
 //        Toast.makeText(this,fileName,Toast.LENGTH_SHORT).show();
         File confFile = new File(fileName);
         String username = "";
+        String ssh_port = "";
         try (BufferedReader br = new BufferedReader(new FileReader(confFile))){
             String line;
             while ((line = br.readLine()) != null) {
@@ -529,6 +530,9 @@ public class MainActivity extends AppCompatActivity implements
                     String[] pair = line.split("=");
                     String key = pair[0];
                     String value = pair[1];
+                    if(key.equals("SSH_PORT")){
+                        ssh_port = value.replaceAll("\"","");
+                    }
                     if (key.equals("USER_NAME")) {
                         username = value.replaceAll("\"","");
                         break;
@@ -545,7 +549,7 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         Intent intent = new Intent("android.intent.action.VIEW",
-                Uri.parse("ssh://"+username+"@localhost:22"));
+                Uri.parse("ssh://"+username+"@localhost:"+ssh_port));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if(intent != null ) {
             try {
@@ -569,6 +573,7 @@ public class MainActivity extends AppCompatActivity implements
         File confFile = new File(fileName);
         String username = "";
         String userpasswd = "";
+        String vnc_display = "";
         try (BufferedReader br = new BufferedReader(new FileReader(confFile))){
             String line;
             while ((line = br.readLine()) != null) {
@@ -581,6 +586,9 @@ public class MainActivity extends AppCompatActivity implements
                     }
                     if(key.equals("USER_PASSWORD")){
                         userpasswd = value.replaceAll("\"","");
+                    }
+                    if(key.equals("VNC_DISPLAY")){
+                        vnc_display = value.replaceAll("\"","");
                         break;
                     }
                 }
@@ -594,7 +602,7 @@ public class MainActivity extends AppCompatActivity implements
         }
 
         Intent intent = new Intent("android.intent.action.VIEW",
-                Uri.parse("vnc://127.0.0.1:5900/?VncUsername="+
+                Uri.parse("vnc://127.0.0.1:"+vnc_display+"/?VncUsername="+
                 username+"&VncPassword="+userpasswd));
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         if(intent != null ) {
