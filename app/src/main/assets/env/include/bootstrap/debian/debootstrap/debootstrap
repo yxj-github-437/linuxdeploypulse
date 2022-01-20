@@ -711,7 +711,7 @@ if am_doing_phase dldebs; then
 fi
 
 if am_doing_phase save_variables; then
-	cp "$DEBOOTSTRAP_DIR/debootstrap"				 "$TARGET/debootstrap/debootstrap"
+	cp "$DEBOOTSTRAP_DIR/debootstrap"  "$TARGET/debootstrap/debootstrap"
 	cp "$DEBOOTSTRAP_DIR/functions"	 "$TARGET/debootstrap/functions"
 	cp "$SCRIPT"			 "$TARGET/debootstrap/suite-script"
 	# pick up common setting scripts
@@ -747,7 +747,7 @@ if am_doing_phase first_stage; then
 	first_stage_install
 
 	if ! am_doing_phase second_stage; then
-		cp "$DEBOOTSTRAP_DIR/debootstrap"				 "$TARGET/debootstrap/debootstrap"
+		cp "$DEBOOTSTRAP_DIR/debootstrap"	"$TARGET/debootstrap/debootstrap"
 		cp "$DEBOOTSTRAP_DIR/functions"	 "$TARGET/debootstrap/functions"
 		cp "$SCRIPT"			 "$TARGET/debootstrap/suite-script"
 		# pick up common setting scripts

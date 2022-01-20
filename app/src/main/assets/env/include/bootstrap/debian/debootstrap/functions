@@ -551,8 +551,12 @@ validate_suite () {
 	CODENAME=$(sed -n "s/^Codename: *//p" "$reldest")
 	suite=$(sed -n "s/^Suite: *//p" "$reldest")
 
+    if [ "$SUITE" == "devel" ] && [ "$DISTRIB" == "ubuntu" ];then
+        return 0
+    fi
+
 	if [ "$SUITE" != "$suite" ] && [ "$SUITE" != "$CODENAME" ]; then
-		error 1 WRONGSUITE "Asked to install suite %s, but got %s (codename: %s) from mirror" "$SUITE" "$suite" "$CODENAME"
+		    error 1 WRONGSUITE "Asked to install suite %s, but got %s (codename: %s) from mirror" "$SUITE" "$suite" "$CODENAME"
 	fi
 }
 
