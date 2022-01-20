@@ -302,7 +302,6 @@
     <!-- Ubuntu -->
 
     <string-array name="ubuntu_suite_values" translatable="false">
-        <item>precise</item>
         <item>trusty</item>
         <item>xenial</item>
         <item>bionic</item>
@@ -310,6 +309,7 @@
         <item>hirsute</item>
         <item>impish</item>
         <item>jammy</item>
+        <item>devel(rolling)</item>
     </string-array>
     <string-array name="ubuntu_arch_values" translatable="false">
         <item>armel</item> <!-- precise only -->

@@ -9,7 +9,7 @@ android {
         minSdkVersion 26
         targetSdkVersion 30
         versionCode 437
-        versionName "2.8.7"
+        versionName "2.8.8"
         vectorDrawables.useSupportLibrary true
     }
 /*
