@@ -15,7 +15,7 @@ do_install()
     local packages=""
     case "${DISTRIB}:${ARCH}:${SUITE}" in
     debian:*|ubuntu:*|kali:*)
-        packages="tightvncserver"
+        packages="tigervnc*server"
         apt_install ${packages}
     ;;
     archlinux:*)

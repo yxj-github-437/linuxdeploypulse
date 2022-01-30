@@ -1001,11 +1001,11 @@ valid_extractor () {
 
 choose_extractor () {
 	local extractor
-
+## not choose dpkg-deb
 	if [ -n "$EXTRACTOR_OVERRIDE" ]; then
 		extractor="$EXTRACTOR_OVERRIDE"
-	elif in_path dpkg-deb; then
-		extractor="dpkg-deb"
+##	elif in_path dpkg-deb; then
+##		extractor="dpkg-deb"
 	else
 		extractor="ar"
 	fi
