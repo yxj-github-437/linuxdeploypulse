@@ -303,8 +303,6 @@ public class EnvUtils {
         ExternalFileDir.mkdirs();
 
         List<String> params = new ArrayList<>();
-        // install busybox applets
-        params.add("busybox --install -s " + PrefStore.getBinDir(c));
         // replace shell interpreter in some scripts
         String[] scripts = {
                 PrefStore.getBinDir(c) + "/websocket.sh",
@@ -316,6 +314,14 @@ public class EnvUtils {
             params.add("sed -i 's|^#!/.*|#!" + PrefStore.getShell(c) + "|' " + f);
         }
         exec(c, "sh", params);
+
+        // install busybox applets
+        Runtime runtime = Runtime.getRuntime();
+        try {
+            runtime.exec(PrefStore.getBinDir(c) + "/" + "busybox --install -s " + PrefStore.getBinDir(c));
+        }catch (Exception e){
+            return false;
+        }
 
         // update cli.conf
         if (!PrefStore.getSettingsConfFile(c).exists()) PrefStore.dumpSettings(c);

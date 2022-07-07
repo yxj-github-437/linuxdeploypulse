@@ -281,11 +281,6 @@
     <!-- Debian -->
 
     <string-array name="debian_suite_values" translatable="false">
-        <item>oldstable</item>
-        <item>stable</item>
-        <item>testing</item>
-        <item>unstable</item>
-        <item>jessie</item>
         <item>stretch</item>
         <item>buster</item>
         <item>bullseye</item>
@@ -335,7 +330,9 @@
     <!-- Fedora -->
 
     <string-array name="fedora_suite_values" translatable="false">
-        <item>30</item>
+        <item>34</item>
+        <item>35</item>
+        <item>36</item>
     </string-array>
     <string-array name="fedora_arch_values" translatable="false">
         <item>armhfp</item> <!-- f19 and later -->

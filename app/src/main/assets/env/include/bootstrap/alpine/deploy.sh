@@ -1,4 +1,4 @@
-#!/bin/sh
+    #!/bin/sh
 # Linux Deploy Component
 # (c) Anton Skshidlevsky <meefik@gmail.com>, GPLv3
 
@@ -40,8 +40,10 @@ do_install()
     is_ok "fail" "done" || return 1
 
     component_exec core/emulator core/mnt core/net
+    sed -i 's/dl-cdn.alpinelinux.org/mirrors.bfsu.edu.cn/g' "${CHROOT_DIR}"/etc/apk/repositories
 
     msg "Installing packages: "
+    local EXTRA_PACKAGES="bash"
     apk_install shadow sudo tzdata ${EXTRA_PACKAGES}
     is_ok || return 1
 

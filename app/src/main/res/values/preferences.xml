@@ -90,61 +90,61 @@
     <!-- Debian -->
     <string name="debian_suite" translatable="false">bullseye</string>
     <!-- arm -->
-    <string name="arm_debian_source_path" translatable="false">http://ftp.debian.org/debian/</string>
+    <string name="arm_debian_source_path" translatable="false">https://mirrors.bfsu.edu.cn/debian</string>
     <string name="arm_debian_arch" translatable="false">armhf</string>
     <!-- arm_64 -->
-    <string name="arm_64_debian_source_path" translatable="false">http://ftp.debian.org/debian/</string>
+    <string name="arm_64_debian_source_path" translatable="false">https://mirrors.bfsu.edu.cn/debian</string>
     <string name="arm_64_debian_arch" translatable="false">arm64</string>
     <!-- x86 -->
-    <string name="x86_debian_source_path" translatable="false">http://ftp.debian.org/debian/</string>
+    <string name="x86_debian_source_path" translatable="false">https://mirrors.bfsu.edu.cn/debian</string>
     <string name="x86_debian_arch" translatable="false">i386</string>
     <!-- x86_64 -->
-    <string name="x86_64_debian_source_path" translatable="false">http://ftp.debian.org/debian/</string>
+    <string name="x86_64_debian_source_path" translatable="false">https://mirrors.bfsu.edu.cn/debian</string>
     <string name="x86_64_debian_arch" translatable="false">amd64</string>
 
     <!-- Ubuntu -->
     <string name="ubuntu_suite" translatable="false">jammy</string>
     <!-- arm -->
-    <string name="arm_ubuntu_source_path" translatable="false">http://ports.ubuntu.com/</string>
+    <string name="arm_ubuntu_source_path" translatable="false">https://mirrors.bfsu.edu.cn/ubuntu-ports</string>
     <string name="arm_ubuntu_arch" translatable="false">armhf</string>
     <!-- arm_64 -->
-    <string name="arm_64_ubuntu_source_path" translatable="false">http://ports.ubuntu.com/</string>
+    <string name="arm_64_ubuntu_source_path" translatable="false">https://mirrors.bfsu.edu.cn/ubuntu-ports</string>
     <string name="arm_64_ubuntu_arch" translatable="false">arm64</string>
     <!-- x86 -->
-    <string name="x86_ubuntu_source_path" translatable="false">http://archive.ubuntu.com/ubuntu/</string>
+    <string name="x86_ubuntu_source_path" translatable="false">https://mirrors.bfsu.edu.cn/ubuntu</string>
     <string name="x86_ubuntu_arch" translatable="false">i386</string>
     <!-- x86_64 -->
-    <string name="x86_64_ubuntu_source_path" translatable="false">http://archive.ubuntu.com/ubuntu/</string>
+    <string name="x86_64_ubuntu_source_path" translatable="false">https://mirrors.bfsu.edu.cn/ubuntu</string>
     <string name="x86_64_ubuntu_arch" translatable="false">amd64</string>
 
     <!-- Kali Linux -->
     <string name="kali_suite" translatable="false">kali-rolling</string>
     <!-- arm -->
-    <string name="arm_kali_source_path" translatable="false">http://http.kali.org/kali/</string>
+    <string name="arm_kali_source_path" translatable="false">https://mirrors.bfsu.edu.cn/kali</string>
     <string name="arm_kali_arch" translatable="false">armhf</string>
     <!-- arm_64 -->
-    <string name="arm_64_kali_source_path" translatable="false">http://http.kali.org/kali/</string>
+    <string name="arm_64_kali_source_path" translatable="false">https://mirrors.bfsu.edu.cn/kali</string>
     <string name="arm_64_kali_arch" translatable="false">arm64</string>
     <!-- x86 -->
-    <string name="x86_kali_source_path" translatable="false">http://http.kali.org/kali/</string>
+    <string name="x86_kali_source_path" translatable="false">https://mirrors.bfsu.edu.cn/kali</string>
     <string name="x86_kali_arch" translatable="false">i386</string>
     <!-- x86_64 -->
-    <string name="x86_64_kali_source_path" translatable="false">http://http.kali.org/kali/</string>
+    <string name="x86_64_kali_source_path" translatable="false">https://mirrors.bfsu.edu.cn/kali</string>
     <string name="x86_64_kali_arch" translatable="false">amd64</string>
 
     <!-- Fedora -->
-    <string name="fedora_suite" translatable="false">30</string>
+    <string name="fedora_suite" translatable="false">36</string>
     <!-- arm -->
-    <string name="arm_fedora_source_path" translatable="false">http://dl.fedoraproject.org/pub/</string>
+    <string name="arm_fedora_source_path" translatable="false">https://mirrors.bfsu.edu.cn/fedora</string>
     <string name="arm_fedora_arch" translatable="false">armhfp</string>
     <!-- arm_64 -->
-    <string name="arm_64_fedora_source_path" translatable="false">http://dl.fedoraproject.org/pub/</string>
+    <string name="arm_64_fedora_source_path" translatable="false">https://mirrors.bfsu.edu.cn/fedora</string>
     <string name="arm_64_fedora_arch" translatable="false">aarch64</string>
     <!-- x86 -->
-    <string name="x86_fedora_source_path" translatable="false">http://dl.fedoraproject.org/pub/</string>
+    <string name="x86_fedora_source_path" translatable="false">https://mirrors.bfsu.edu.cn/fedora</string>
     <string name="x86_fedora_arch" translatable="false">i386</string>
     <!-- x86_64 -->
-    <string name="x86_64_fedora_source_path" translatable="false">http://dl.fedoraproject.org/pub/</string>
+    <string name="x86_64_fedora_source_path" translatable="false">https://mirrors.bfsu.edu.cn/fedora</string>
     <string name="x86_64_fedora_arch" translatable="false">x86_64</string>
 
     <!-- CentOS -->
@@ -165,16 +165,16 @@
     <!-- Arch Linux -->
     <string name="archlinux_suite" translatable="false">latest</string>
     <!-- arm -->
-    <string name="arm_archlinux_source_path" translatable="false">http://mirror.archlinuxarm.org/</string>
+    <string name="arm_archlinux_source_path" translatable="false">http://mirrors.bfsu.edu.cn/archlinuxarm</string>
     <string name="arm_archlinux_arch" translatable="false">armv7h</string>
     <!-- arm_64 -->
-    <string name="arm_64_archlinux_source_path" translatable="false">http://mirror.archlinuxarm.org/</string>
+    <string name="arm_64_archlinux_source_path" translatable="false">http://mirrors.bfsu.edu.cn/archlinuxarm</string>
     <string name="arm_64_archlinux_arch" translatable="false">aarch64</string>
     <!-- x86 -->
-    <string name="x86_archlinux_source_path" translatable="false">http://mirror.archlinux32.org/</string>
+    <string name="x86_archlinux_source_path" translatable="false">http://mirrors.bfsu.edu.cn/archlinux</string>
     <string name="x86_archlinux_arch" translatable="false">i686</string>
     <!-- x86_64 -->
-    <string name="x86_64_archlinux_source_path" translatable="false">http://mirrors.kernel.org/archlinux/</string>
+    <string name="x86_64_archlinux_source_path" translatable="false">http://mirrors.bfsu.edu.cn/archlinux</string>
     <string name="x86_64_archlinux_arch" translatable="false">x86_64</string>
 
     <!-- Slackware -->
@@ -195,16 +195,16 @@
     <!-- Alpine Linux -->
     <string name="alpine_suite" translatable="false">latest-stable</string>
     <!-- arm -->
-    <string name="arm_alpine_source_path" translatable="false">http://dl-cdn.alpinelinux.org/alpine/</string>
+    <string name="arm_alpine_source_path" translatable="false">https://mirrors.bfsu.edu.cn/alpine</string>
     <string name="arm_alpine_arch" translatable="false">armhf</string>
     <!-- arm_64 -->
-    <string name="arm_64_alpine_source_path" translatable="false">http://dl-cdn.alpinelinux.org/alpine/</string>
+    <string name="arm_64_alpine_source_path" translatable="false">https://mirrors.bfsu.edu.cn/alpine</string>
     <string name="arm_64_alpine_arch" translatable="false">aarch64</string>
     <!-- x86 -->
-    <string name="x86_alpine_source_path" translatable="false">http://dl-cdn.alpinelinux.org/alpine/</string>
+    <string name="x86_alpine_source_path" translatable="false">https://mirrors.bfsu.edu.cn/alpine</string>
     <string name="x86_alpine_arch" translatable="false">x86</string>
     <!-- x86_64 -->
-    <string name="x86_64_alpine_source_path" translatable="false">http://dl-cdn.alpinelinux.org/alpine/</string>
+    <string name="x86_64_alpine_source_path" translatable="false">https://mirrors.bfsu.edu.cn/alpine</string>
     <string name="x86_64_alpine_arch" translatable="false">x86_64</string>
 
     <!-- Docker -->

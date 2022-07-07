@@ -75,6 +75,11 @@ do_install()
     local fs_file=$(echo ${core_files} | grep -m1 '^filesystem-')
     for pkg_file in ${fs_file} ${core_files}
     do
+        case $pkg_file in
+        *-debug-*)
+           continue
+        ;;
+        esac
         msg -n "${pkg_file%-*} ... "
         # download
         local i

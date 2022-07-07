@@ -971,17 +971,12 @@ extract_ar_deb_data () {
 		data.tar.bz2) cat_cmd=bzcat ;;
 		data.tar.xz)  cat_cmd=xzcat ;;
 		data.tar)     cat_cmd=cat ;;
-		data.tar.zst) cat_cmd=zstd ;;
+		data.tar.zst) cat_cmd=zstdcat ;;
 		*) error 1 UNKNOWNDATACOMP "Unknown compression type for %s in %s" "$tarball" "$pkg" ;;
 	esac
 
 	if in_path "$cat_cmd"; then
-	    case "$cat_cmd" in
-	        zstd)
-	            ar -p "$pkg" "$tarball" | "$cat_cmd" -d | tar $EXTRACT_DEB_TAR_OPTIONS -xf - ;;
-	        *)
-		        ar -p "$pkg" "$tarball" | "$cat_cmd" | tar $EXTRACT_DEB_TAR_OPTIONS -xf - ;;
-		esac
+		ar -p "$pkg" "$tarball" | "$cat_cmd" | tar $EXTRACT_DEB_TAR_OPTIONS -xf -
 	else
 		error 1 UNPACKCMDUNVL "Extracting %s requires the %s command, which is not available" "$pkg" "$cat_cmd"
 	fi
@@ -1001,7 +996,7 @@ valid_extractor () {
 
 choose_extractor () {
 	local extractor
-## not choose dpkg-deb
+
 	if [ -n "$EXTRACTOR_OVERRIDE" ]; then
 		extractor="$EXTRACTOR_OVERRIDE"
 ##	elif in_path dpkg-deb; then

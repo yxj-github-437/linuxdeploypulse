@@ -16,7 +16,7 @@ do_install()
         pacman_install ${packages}
     ;;
     fedora:*)
-        packages="xorg-x11-server-utils xorg-x11-fonts-misc dejavu-* @lxde-desktop-environment"
+        packages="xorg-x11-server-* xorg-x11-fonts-misc dejavu-* @lxde-desktop-environment"
         dnf_install ${packages}
     ;;
     esac

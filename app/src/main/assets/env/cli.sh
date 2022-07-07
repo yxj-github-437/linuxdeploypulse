@@ -120,7 +120,7 @@ is_archive()
 {
     local src="$1"
     [ -n "${src}" ] || return 1
-    if [ -z "${src##*gz}" -o -z "${src##*bz2}" -o -z "${src##*xz}" ]; then
+    if [ -z "${src##*gz}" -o -z "${src##*bz2}" -o -z "${src##*xz}" -o -z "${src##*zst}" ]; then
         return 0
     fi
     return 1
@@ -579,6 +579,50 @@ mount_part()
             msg "skip"
         fi
     ;;
+    system)
+        msg -n "/system ... "
+        local target="${CHROOT_DIR}/system"
+        if ! is_mounted "${target}" ; then
+            [ -d "${target}" ] || mkdir -p "${target}"
+            mount -o ro /system "${target}"
+            is_ok "fail" "done"
+        else
+            msg "skip"
+        fi
+    ;;
+    vendor)
+        msg -n "/vendor ... "
+        local target="${CHROOT_DIR}/vendor"
+        if ! is_mounted "${target}" ; then
+            [ -d "${target}" ] || mkdir -p "${target}"
+            mount -o ro /vendor "${target}"
+            is_ok "fail" "done"
+        else
+            msg "skip"
+        fi
+    ;;
+    apex)
+        msg -n "/apex ... "
+        local target="${CHROOT_DIR}/apex"
+        if ! is_mounted "${target}" ; then
+            [ -d "${target}" ] || mkdir -p "${target}"
+            mount -o ro /apex "${target}"
+            is_ok "fail" "done"
+        else
+            msg "skip"
+        fi
+    ;;
+    com.android.runtime)
+        msg -n "/apex/com.android.runtime ... "
+        local target="${CHROOT_DIR}/apex/com.android.runtime"
+        if ! is_mounted "${target}" ; then
+            [ -d "${target}" ] || mkdir -p "${target}"
+            mount -o ro /apex/com.android.runtime "${target}"
+            is_ok "fail" "done"
+        else
+            msg "skip"
+        fi
+    ;;
     dev)
         msg -n "/dev ... "
         local target="${CHROOT_DIR}/dev"
@@ -662,7 +706,7 @@ container_mount()
     [ "${METHOD}" = "chroot" ] || return 0
 
     if [ $# -eq 0 ]; then
-        container_mount root proc sys dev shm pts fd tty tun binfmt_misc
+        container_mount root proc sys system vendor apex com.android.runtime dev shm pts fd tty tun binfmt_misc
         return $?
     fi
 
@@ -828,11 +872,27 @@ rootfs_import()
         fi
         is_ok "fail" "done" || return 1
     ;;
+    *zst)
+        msg -n "Importing rootfs from tar.zst archive ... "
+        if [ -e "${rootfs_file}" ]; then
+            zstdcat "${rootfs_file}" | tar -xC "${CHROOT_DIR}"
+        elif [ -z "${rootfs_file##http*}" ]; then
+            wget -q -O - "${rootfs_file}" | zstdcat | tar -xC "${CHROOT_DIR}"
+        else
+            msg "fail"; return 1
+        fi
+        is_ok "fail" "done" || return 1
+    ;;
     *)
-        msg "Incorrect filename, supported only tar, tar.gz, tar.bz2 or tar.xz archives."
+        msg "Incorrect filename, supported only tar, tar.gz, tar.bz2 or tar.xz tar.zst archives."
         return 1
     ;;
     esac
+            
+    rm "${CHROOT_DIR}/etc/resolv.conf"
+    echo "nameserver 192.168.0.1" > "${CHROOT_DIR}/etc/resolv.conf"
+    echo "nameserver 240c::6666" >> "${CHROOT_DIR}/etc/resolv.conf"
+    
     return 0
 }
 
@@ -846,21 +906,26 @@ rootfs_export()
     case "${rootfs_file}" in
     *gz)
         msg -n "Exporting rootfs as tar.gz archive ... "
-        tar czvf "${rootfs_file}" --exclude='./dev' --exclude='./sys' --exclude='./proc' -C "${CHROOT_DIR}" . >/dev/null
+        tar czvf "${rootfs_file}" --exclude='./dev' --exclude='./sys' --exclude='./proc' --exclude="./system" --exclude="./vendor" --exclude="./apex" -C "${CHROOT_DIR}" . >/dev/null
         is_ok "fail" "done" || return 1
     ;;
     *bz2)
         msg -n "Exporting rootfs as tar.bz2 archive ... "
-        tar cjvf "${rootfs_file}" --exclude='./dev' --exclude='./sys' --exclude='./proc' -C "${CHROOT_DIR}" . >/dev/null
+        tar cjvf "${rootfs_file}" --exclude='./dev' --exclude='./sys' --exclude='./proc' --exclude="./system" --exclude="./vendor" --exclude="./apex" -C "${CHROOT_DIR}" . >/dev/null
         is_ok "fail" "done" || return 1
     ;;
     *xz)
         msg -n "Exporting rootfs as tar.xz archive ... "
-        tar cJvf "${rootfs_file}" --exclude='./dev' --exclude='./sys' --exclude='./proc' -C "${CHROOT_DIR}" . >/dev/null
+        tar cJvf "${rootfs_file}" --exclude='./dev' --exclude='./sys' --exclude='./proc' --exclude="./system" --exclude="./vendor" --exclude="./apex" -C "${CHROOT_DIR}" . >/dev/null
+        is_ok "fail" "done" || return 1
+    ;;
+    *.zst)
+        msg -n "Exporting rootfs as tar.zst archive ... "
+        tar cf - --exclude='./dev' --exclude='./sys' --exclude='./proc' --exclude="./system" --exclude="./vendor" --exclude="./apex" -C "${CHROOT_DIR}" . | zstd -6 > "${rootfs_file}"
         is_ok "fail" "done" || return 1
     ;;
     *)
-        msg "Incorrect filename, supported only gz, bz2 , xz or zst archives."
+        msg "Incorrect filename, supported only gz, bz2 , xz , zst archives."
         return 1
     ;;
     esac
