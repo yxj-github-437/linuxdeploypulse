@@ -15,7 +15,10 @@ do_install()
     local packages=""
     case "${DISTRIB}:${ARCH}:${SUITE}" in
     debian:*|ubuntu:*|kali:*)
-        packages="tigervnc*server tigervnc-tools"
+        packages="tigervnc*server"
+        if [ "${DISTRIB}" != "debian" ];then
+            packages="${packages} tigervnc-tools"
+        fi
         apt_install ${packages}
     ;;
     archlinux:*)
