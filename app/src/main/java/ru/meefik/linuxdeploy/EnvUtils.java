@@ -318,7 +318,9 @@ public class EnvUtils {
         // install busybox applets
         Runtime runtime = Runtime.getRuntime();
         try {
-            runtime.exec(PrefStore.getBinDir(c) + "/" + "busybox --install -s " + PrefStore.getBinDir(c));
+             runtime.exec ("chmod 755 -R " + PrefStore.getBinDir(c)).waitFor();
+             runtime.exec("./busybox --install -s .",null,
+                     new File(PrefStore.getBinDir(c))).waitFor();
         }catch (Exception e){
             return false;
         }
