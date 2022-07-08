@@ -46,7 +46,7 @@
     <string name="fs_type" translatable="false">ext4</string>
     <string name="user_name" translatable="false">android</string>
     <string name="user_password" translatable="false"></string>
-    <string name="privileged_users" translatable="false">android:aid_inet android:aid_sdcard_rw android:aid_graphics</string>
+    <string name="privileged_users" translatable="false">android:aid_inet android:aid_sdcard_rw android:aid_graphics android:aid_media_rw android:aid_everybody</string>
     <string name="locale" translatable="false">C</string>
     <string name="dns" translatable="false"></string>
     <string name="net_trigger" translatable="false"></string>
@@ -165,16 +165,16 @@
     <!-- Arch Linux -->
     <string name="archlinux_suite" translatable="false">latest</string>
     <!-- arm -->
-    <string name="arm_archlinux_source_path" translatable="false">http://mirrors.bfsu.edu.cn/archlinuxarm</string>
+    <string name="arm_archlinux_source_path" translatable="false">https://mirrors.bfsu.edu.cn/archlinuxarm</string>
     <string name="arm_archlinux_arch" translatable="false">armv7h</string>
     <!-- arm_64 -->
-    <string name="arm_64_archlinux_source_path" translatable="false">http://mirrors.bfsu.edu.cn/archlinuxarm</string>
+    <string name="arm_64_archlinux_source_path" translatable="false">https://mirrors.bfsu.edu.cn/archlinuxarm</string>
     <string name="arm_64_archlinux_arch" translatable="false">aarch64</string>
     <!-- x86 -->
-    <string name="x86_archlinux_source_path" translatable="false">http://mirrors.bfsu.edu.cn/archlinux</string>
+    <string name="x86_archlinux_source_path" translatable="false">https://mirrors.bfsu.edu.cn/archlinux</string>
     <string name="x86_archlinux_arch" translatable="false">i686</string>
     <!-- x86_64 -->
-    <string name="x86_64_archlinux_source_path" translatable="false">http://mirrors.bfsu.edu.cn/archlinux</string>
+    <string name="x86_64_archlinux_source_path" translatable="false">https://mirrors.bfsu.edu.cn/archlinux</string>
     <string name="x86_64_archlinux_arch" translatable="false">x86_64</string>
 
     <!-- Slackware -->

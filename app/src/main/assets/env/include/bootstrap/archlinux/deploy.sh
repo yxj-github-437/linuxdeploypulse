@@ -68,7 +68,7 @@ do_install()
     is_ok "fail" "done" || return 1
 
     msg -n "Retrieving packages list ... "
-    local core_files=$(wget -q -O - "${repo_url}/core.db.tar.gz" | tar xOz | grep '.pkg.tar.xz$' | grep -v -e '^linux-' -e '^grub-' -e '^efibootmgr-' -e '^openssh-' | sort)
+    local core_files=$(wget -q -O - "${repo_url}/core.db.tar.gz" | tar xOz | grep '.pkg.tar.*$' | grep -v -e '^linux-' -e '^grub-' -e '^efibootmgr-' -e '^openssh-' | sort)
     is_ok "fail" "done" || return 1
 
     msg "Retrieving packages: "
@@ -76,7 +76,7 @@ do_install()
     for pkg_file in ${fs_file} ${core_files}
     do
         case $pkg_file in
-        *-debug-*)
+        *-debug-* | *-tests-*)
            continue
         ;;
         esac
@@ -89,11 +89,20 @@ do_install()
             sleep 30s
         done
         # unpack
-        tar xJf "${cache_dir}/${pkg_file}" -C "${CHROOT_DIR}" --exclude='./dev' --exclude='./sys' --exclude='./proc' --exclude='.INSTALL' --exclude='.MTREE' --exclude='.PKGINFO'
+        if [[ "${pkg_file}" == *.xz ]];then
+            tar xJf "${cache_dir}/${pkg_file}" -C "${CHROOT_DIR}" --exclude='./dev' --exclude='./sys' --exclude='./proc' --exclude='.INSTALL' --exclude='.MTREE' --exclude='.PKGINFO'
+        elif [[ "${pkg_file}" == *.zst ]]; then
+            zstdcat "${cache_dir}/${pkg_file}" | tar -x -C "${CHROOT_DIR}" --exclude='./dev' --exclude='./sys' --exclude='./proc' --exclude='.INSTALL' --exclude='.MTREE' --exclude='.PKGINFO'
+        fi
         is_ok "fail" "done" || return 1
     done
 
     component_exec core/emulator core/mnt core/net
+
+    msg -n "Installing ssl certificates ... "
+    local url="http://curl.haxx.se/ca/cacert.pem"
+    wget -q -c -O "${CHROOT_DIR}/etc/ca-certificates/extracted/tls-ca-bundle.pem" "${url}"
+    is_ok || return 1
 
     msg -n "Updating repository ... "
     pacman_repository
