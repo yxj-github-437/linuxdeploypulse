@@ -3,6 +3,7 @@ package ru.meefik.linuxdeploy;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetManager;
+import android.util.Log;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -317,11 +318,17 @@ public class EnvUtils {
 
         // install busybox applets
         Runtime runtime = Runtime.getRuntime();
+        File bin_dir = new File(PrefStore.getBinDir(c));
         try {
-             runtime.exec ("chmod 755 -R " + PrefStore.getBinDir(c)).waitFor();
-             runtime.exec("./busybox --install -s .",null,
-                     new File(PrefStore.getBinDir(c))).waitFor();
+            runtime.exec("tar xof ./busybox.tar -C .",null,
+                    bin_dir).waitFor();
+            runtime.exec("rm ./busybox.tar",null,
+                    bin_dir).waitFor();
+            Log.d("Runtime","install success.");
+            runtime.exec ("chmod 777 -R" + PrefStore.getBinDir(c)).waitFor();
+            Log.d("Runtime","chmod success.");
         }catch (Exception e){
+            Log.e("Runtime", "failed.");
             return false;
         }
 
