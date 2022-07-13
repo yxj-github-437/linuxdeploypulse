@@ -243,6 +243,8 @@ public class EnvUtils {
         // stop services
         execServices(c, new String[]{"telnetd", "httpd"}, "stop");
 
+        Runtime runtime = Runtime.getRuntime();
+
         // extract env assets
         if (!extractDir(c, PrefStore.getEnvDir(c), "env", "")) return false;
 
@@ -259,6 +261,12 @@ public class EnvUtils {
                 break;
             case "x86":
                 if (!extractDir(c, PrefStore.getBinDir(c), "bin/x86", "")) return false;
+                try{
+                    runtime.exec("cp /system/bin/wget .",null,
+                            new File(PrefStore.getBinDir(c)));
+                } catch (Exception e){
+                    return false;
+                }
                 break;
             case "x86_64":
                 if (!extractDir(c, PrefStore.getBinDir(c), "bin/x86", "")) return false;
@@ -316,22 +324,6 @@ public class EnvUtils {
         }
         exec(c, "sh", params);
 
-        // install busybox applets
-        Runtime runtime = Runtime.getRuntime();
-        File bin_dir = new File(PrefStore.getBinDir(c));
-        try {
-            runtime.exec("tar xof ./busybox.tar -C .",null,
-                    bin_dir).waitFor();
-            runtime.exec("rm ./busybox.tar",null,
-                    bin_dir).waitFor();
-            Log.d("Runtime","install success.");
-            runtime.exec ("chmod 777 -R" + PrefStore.getBinDir(c)).waitFor();
-            Log.d("Runtime","chmod success.");
-        }catch (Exception e){
-            Log.e("Runtime", "failed.");
-            return false;
-        }
-
         // update cli.conf
         if (!PrefStore.getSettingsConfFile(c).exists()) PrefStore.dumpSettings(c);
         // update profile.conf
@@ -356,10 +348,13 @@ public class EnvUtils {
         String scriptFile = PrefStore.getBinDir(c) + "/linuxdeploy";
         String Arch = PrefStore.getArch();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(scriptFile))) {
-            bw.write("#!" + PrefStore.getPath(c) + "/ash\n");
+            bw.write("#!/bin/sh\n");
             bw.write("PATH=" + PrefStore.getPath(c) + ":$PATH\n");
             bw.write("ENV_DIR=\"" + PrefStore.getEnvDir(c) + "\"\n");
-            bw.write(". \"${ENV_DIR}/cli.sh\"\n");
+            bw.write("if [ ! -e ${ENV_DIR}/bin/ash ]; then\n");
+            bw.write("  ${ENV_DIR}/bin/busybox --install -s ${ENV_DIR}/bin\n");
+            bw.write("fi\n");
+            bw.write("${ENV_DIR}/bin/ash \"${ENV_DIR}/cli.sh\" \"$@\" \n");
             return true;
         } catch (IOException e) {
             return false;
