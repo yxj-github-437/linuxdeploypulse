@@ -348,7 +348,7 @@ public class EnvUtils {
         String scriptFile = PrefStore.getBinDir(c) + "/linuxdeploy";
         String Arch = PrefStore.getArch();
         try (BufferedWriter bw = new BufferedWriter(new FileWriter(scriptFile))) {
-            bw.write("#!/bin/sh\n");
+            bw.write("#!/system/bin/sh\n");
             bw.write("PATH=" + PrefStore.getPath(c) + ":$PATH\n");
             bw.write("ENV_DIR=\"" + PrefStore.getEnvDir(c) + "\"\n");
             bw.write("if [ ! -e ${ENV_DIR}/bin/ash ]; then\n");
