@@ -261,12 +261,6 @@ public class EnvUtils {
                 break;
             case "x86":
                 if (!extractDir(c, PrefStore.getBinDir(c), "bin/x86", "")) return false;
-                try{
-                    runtime.exec("cp /system/bin/wget .",null,
-                            new File(PrefStore.getBinDir(c)));
-                } catch (Exception e){
-                    return false;
-                }
                 break;
             case "x86_64":
                 if (!extractDir(c, PrefStore.getBinDir(c), "bin/x86", "")) return false;
@@ -312,6 +306,8 @@ public class EnvUtils {
         ExternalFileDir.mkdirs();
 
         List<String> params = new ArrayList<>();
+        // install busybox aoolets
+        params.add("busybox --install -s " + PrefStore.getBinDir(c));
         // replace shell interpreter in some scripts
         String[] scripts = {
                 PrefStore.getBinDir(c) + "/websocket.sh",

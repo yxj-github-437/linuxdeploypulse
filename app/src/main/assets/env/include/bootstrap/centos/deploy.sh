@@ -4,6 +4,8 @@
 
 [ -n "${SUITE}" ] || SUITE="7"
 
+SUITE="9-stream"
+
 if [ -z "${ARCH}" ]
 then
     case "$(get_platform)" in
@@ -46,9 +48,12 @@ yum_groupinstall()
 
 yum_repository()
 {
+    local repo_file repo_url
+    case "${SUITE}" in
+    7)
     chroot_exec -u root yum-config-manager --disable '*' >/dev/null
-    local repo_file="${CHROOT_DIR}/etc/yum.repos.d/CentOS-${SUITE}-${ARCH}.repo"
-    local repo_url="${SOURCE_PATH%/}/${SUITE}/os/${ARCH}"
+    repo_file="${CHROOT_DIR}/etc/yum.repos.d/CentOS-${SUITE}-${ARCH}.repo"
+    repo_url="${SOURCE_PATH%/}/${SUITE}/os/${ARCH}"
     echo "[centos-${SUITE}-${ARCH}]" > "${repo_file}"
     echo "name=CentOS ${SUITE} - ${ARCH}" >> "${repo_file}"
     echo "failovermethod=priority" >> "${repo_file}"
@@ -57,6 +62,35 @@ yum_repository()
     echo "metadata_expire=7d" >> "${repo_file}"
     echo "gpgcheck=0" >> "${repo_file}"
     chmod 644 "${repo_file}"
+    ;;
+    *-stream)
+    repo_file="${CHROOT_DIR}/etc/yum.repos.d/centos.repo"
+    repo_url="${SOURCE_PATH%/}/${SUITE}/BaseOS/${ARCH}/os"
+    echo "[baseos]" > "${repo_file}"
+    echo 'name=CentOS Stream $releasever - BaseOS' >> "${repo_file}"
+    echo "baseurl=${repo_url}" >> "${repo_file}"
+    echo "gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial" >> "${repo_file}"
+    echo "gpgcheck=1" >> "${repo_file}"
+    echo "repo_gpgcheck=0" >> "${repo_file}"
+    echo "metadata_expire=6h" >> "${repo_file}"
+    echo "countme=1" >> "${repo_file}"
+    echo "enabled=1" >> "${repo_file}"
+
+    echo "" >> "${repo_file}"
+
+    repo_url="${SOURCE_PATH%/}/${SUITE}/AppStream/${ARCH}/os"
+    echo "[appstream]" >> "${repo_file}"
+    echo 'name=CentOS Stream $releasever - AppStream' >> "${repo_file}"
+    echo "baseurl=${repo_url}" >> "${repo_file}"
+    echo "gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-centosofficial" >> "${repo_file}"
+    echo "gpgcheck=1" >> "${repo_file}"
+    echo "repo_gpgcheck=0" >> "${repo_file}"
+    echo "metadata_expire=6h" >> "${repo_file}"
+    echo "countme=1" >> "${repo_file}"
+    echo "enabled=1" >> "${repo_file}"
+    chmod 644 "${repo_file}"
+    ;;
+    esac
 }
 
 do_install()
@@ -65,8 +99,21 @@ do_install()
 
     msg ":: Installing ${COMPONENT} ... "
 
-    local core_packages="audit-libs basesystem bash bzip2-libs ca-certificates chkconfig coreutils cpio cracklib cracklib-dicts cryptsetup-libs curl cyrus-sasl-lib dbus dbus-libs diffutils elfutils-libelf elfutils-libs expat file-libs filesystem gawk gdbm glib2 glibc glibc-common gmp gnupg2 gpgme grep gzip info keyutils-libs kmod kmod-libs krb5-libs libacl libassuan libattr libblkid libcap libcap-ng libcom_err libcurl libdb libdb-utils libffi libgcc libgcrypt libgpg-error libidn libmount libpwquality libselinux libsemanage libsepol libssh2 libstdc++ libtasn1 libuuid libverto libxml2 lua lz4 ncurses ncurses-base ncurses-libs nspr nss nss-pem nss-softokn nss-softokn-freebl nss-sysinit nss-tools nss-util openldap openssl-libs p11-kit p11-kit-trust pam pcre pinentry pkgconfig popt pth pygpgme pyliblzma python python-iniparse python-libs python-pycurl python-urlgrabber pyxattr qrencode-libs readline rootfiles rpm rpm-build-libs rpm-libs rpm-python sed setup shadow-utils shared-mime-info sqlite sudo systemd systemd-libs tzdata ustr util-linux vim-minimal which xz-libs yum yum-metadata-parser yum-plugin-fastestmirror yum-utils zlib"
-    local repo_url="${SOURCE_PATH%/}/${SUITE}/os/${ARCH}"
+    local core_packages
+    case "${SUITE}" in
+    *-stream) core_packages="alternatives audit-libs basesystem bash bzip2-libs ca-certificates centos-gpg-keys centos-stream-release centos-stream-repos chkconfig coreutils cpio cracklib cracklib-dicts cryptsetup-libs curl cyrus-sasl-lib dbus dbus-libs dnf dnf-automatic dnf-data dnf-plugins-core diffutils elfutils-libelf elfutils-libs expat file-libs filesystem gawk gdbm-libs glib2 glibc glibc-common glibc-gconv-extra gmp gnupg2 gpgme grep gzip ima-evm-utils-1.4 info json-c keyutils-libs kmod kmod-libs krb5-libs libacl libassuan libattr libblkid libcap libcap-ng libcomps libcom_err libcurl libdb libbrotli libdnf libeconf libffi libgcc libgcrypt libgomp libgpg-error libidn2 libmodulemd libmount libnghttp2 libpsl libpwquality librepo libseccomp libselinux libsemanage libsepol libsigsegv libsmartcols libsolv libssh libssh-config libstdc++ libtasn1 libunistring libuuid libverto libxcrypt libxml2 libyaml libzstd lua-libs lz4 lz4-libs ncurses ncurses-base ncurses-libs openldap openssl-libs p11-kit p11-kit-trust pam pcre pcre2 pkgconf popt python3 python3-dnf python3-gpg python3-hawkey python3-iniparse python3-libcomps python3-libdnf python3-libs python3-rpm readline rootfiles rpm rpm-build-libs rpm-libs rpm-sign-libs sed setup shadow-utils shared-mime-info sqlite-libs sudo systemd systemd-libs tar tpm2-tss tzdata usermode util-linux util-linux-core util-linux-user vim-minimal which xz xz-libs yum yum-utils zchunk-libs zlib zstd"
+    ;;
+    7) core_packages="audit-libs basesystem bash bzip2-libs ca-certificates chkconfig coreutils cpio cracklib cracklib-dicts cryptsetup-libs curl cyrus-sasl-lib dbus dbus-libs diffutils elfutils-libelf elfutils-libs expat file-libs filesystem gawk gdbm glib2 glibc glibc-common gmp gnupg2 gpgme grep gzip info keyutils-libs kmod kmod-libs krb5-libs libacl libassuan libattr libblkid libcap libcap-ng libcom_err libcurl libdb libdb-utils libffi libgcc libgcrypt libgpg-error libidn libmount libpwquality libselinux libsemanage libsepol libssh2 libstdc++ libtasn1 libuuid libverto libxml2 lua lz4 ncurses ncurses-base ncurses-libs nspr nss nss-pem nss-softokn nss-softokn-freebl nss-sysinit nss-tools nss-util openldap openssl-libs p11-kit p11-kit-trust pam pcre pinentry pkgconfig popt pth pygpgme pyliblzma python python-iniparse python-libs python-pycurl python-urlgrabber pyxattr qrencode-libs readline rootfiles rpm rpm-build-libs rpm-libs rpm-python sed setup shadow-utils shared-mime-info sqlite sudo systemd systemd-libs tzdata ustr util-linux vim-minimal which xz-libs yum yum-metadata-parser yum-plugin-fastestmirror yum-utils zlib"
+    ;;
+    esac
+
+    local repo_url
+    case "${SUITE}" in
+    *-stream) repo_url="${SOURCE_PATH%/}/${SUITE}/BaseOS/${ARCH}/os"
+    ;;
+    7) repo_url="${SOURCE_PATH%/}/${SUITE}/os/${ARCH}"
+    ;;
+    esac
 
     msg -n "Preparing for deployment ... "
     tar xzf "${COMPONENT_DIR}/filesystem.tgz" -C "${CHROOT_DIR}"
@@ -123,9 +170,18 @@ do_install()
     yum_repository
     is_ok "fail" "done"
 
+    msg -n "Upgrading packages ..."
+    chroot_exec -u root yum -y upgrade --refresh --nogpgcheck
+    is_ok "fail" "done"
+
     msg "Installing minimal environment: "
-    yum_groupinstall "Minimal Install" --exclude filesystem,linux-firmware,openssh-server &&
+    case "${SUITE}" in
+    *-stream) yum_groupinstall "Minimal Install" --exclude filesystem,linux-firmware,openssh-server
+    ;;
+    7)  yum_groupinstall "Minimal Install" --exclude filesystem,linux-firmware,openssh-server &&
     chroot_exec -u root yum-config-manager --disable centos-kernel >/dev/null
+    ;;
+    esac
     is_ok || return 1
 
     if [ -n "${EXTRA_PACKAGES}" ]; then

@@ -105,16 +105,16 @@
     <!-- Ubuntu -->
     <string name="ubuntu_suite" translatable="false">jammy</string>
     <!-- arm -->
-    <string name="arm_ubuntu_source_path" translatable="false">https://mirrors.bfsu.edu.cn/ubuntu-ports</string>
+    <string name="arm_ubuntu_source_path" translatable="false">https://mirrors.ustc.edu.cn/ubuntu-ports</string>
     <string name="arm_ubuntu_arch" translatable="false">armhf</string>
     <!-- arm_64 -->
-    <string name="arm_64_ubuntu_source_path" translatable="false">https://mirrors.bfsu.edu.cn/ubuntu-ports</string>
+    <string name="arm_64_ubuntu_source_path" translatable="false">https://mirrors.ustc.edu.cn/ubuntu-ports</string>
     <string name="arm_64_ubuntu_arch" translatable="false">arm64</string>
     <!-- x86 -->
-    <string name="x86_ubuntu_source_path" translatable="false">https://mirrors.bfsu.edu.cn/ubuntu</string>
+    <string name="x86_ubuntu_source_path" translatable="false">https://mirrors.ustc.edu.cn/ubuntu</string>
     <string name="x86_ubuntu_arch" translatable="false">i386</string>
     <!-- x86_64 -->
-    <string name="x86_64_ubuntu_source_path" translatable="false">https://mirrors.bfsu.edu.cn/ubuntu</string>
+    <string name="x86_64_ubuntu_source_path" translatable="false">https://mirrors.ustc.edu.cn/ubuntu</string>
     <string name="x86_64_ubuntu_arch" translatable="false">amd64</string>
 
     <!-- Kali Linux -->
@@ -150,16 +150,16 @@
     <!-- CentOS -->
     <string name="centos_suite" translatable="false">7</string>
     <!-- arm -->
-    <string name="arm_centos_source_path" translatable="false">http://mirror.centos.org/altarch/</string>
+    <string name="arm_centos_source_path" translatable="false">https://mirrors.ustc.edu.cn/centos-altarch</string>
     <string name="arm_centos_arch" translatable="false">armhfp</string>
     <!-- arm_64 -->
-    <string name="arm_64_centos_source_path" translatable="false">http://mirror.centos.org/altarch/</string>
+    <string name="arm_64_centos_source_path" translatable="false">https://mirrors.ustc.edu.cn/centos-altarch</string>
     <string name="arm_64_centos_arch" translatable="false">aarch64</string>
     <!-- x86 -->
-    <string name="x86_centos_source_path" translatable="false">http://mirror.centos.org/altarch/</string>
+    <string name="x86_centos_source_path" translatable="false">https://mirrors.ustc.edu.cn/centos-altarch</string>
     <string name="x86_centos_arch" translatable="false">i386</string>
     <!-- x86_64 -->
-    <string name="x86_64_centos_source_path" translatable="false">http://mirror.centos.org/altarch/</string>
+    <string name="x86_64_centos_source_path" translatable="false">https://mirrors.ustc.edu.cn/centos</string>
     <string name="x86_64_centos_arch" translatable="false">x86_64</string>
 
     <!-- Arch Linux -->

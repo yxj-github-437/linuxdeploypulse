@@ -27,7 +27,7 @@ dnf_install()
     return $?
 }
 
-yum_repository()
+dnf_repository()
 {
     sed -i 's/enabled=1/enabled=0/g' "${CHROOT_DIR}/etc/yum.repos.d/fedora-cisco-openh264.repo"
     local repo_file="${CHROOT_DIR}/etc/yum.repos.d/fedora.repo"
@@ -83,12 +83,12 @@ do_install()
 
     msg ":: Installing ${COMPONENT} ... "
 
-    local core_packages="iptables-libs libgcc crypto-policies fedora-release-identity-container tzdata python-setuptools-wheel pcre2-syntax ncurses-base libssh-config libreport-filesystem dnf-data fedora-gpg-keys fedora-release-container fedora-repos fedora-release-common setup filesystem basesystem glibc-minimal-langpack glibc-common glibc ncurses-libs bash zlib bzip2-libs xz-libs libzstd sqlite-libs libdb gmp libcap libcom_err libgpg-error libuuid libxcrypt popt libxml2 readline lua-libs elfutils-libelf file-libs expat libattr libacl libffi p11-kit libsmartcols libstdc++ libunistring libidn2 libassuan libgcrypt alternatives json-c keyutils-libs libcap-ng audit-libs libsepol libtasn1 p11-kit-trust lz4-libs pcre grep pcre2 libselinux sed libsemanage shadow-utils libutempter vim-minimal libpsl libcomps libmetalink libksba mpfr nettle gnutls elfutils-default-yama-scope elfutils-libs gdbm-libs libbrotli libeconf libgomp libnghttp2 libsigsegv gawk libsss_idmap libsss_nss_idmap libverto libyaml npth coreutils-common openssl-libs coreutils ca-certificates krb5-libs libtirpc libblkid libmount glib2 libnsl2 systemd-libs zchunk-libs libusb libfdisk cyrus-sasl-lib openldap gnupg2 gpgme libssh libcurl curl librepo tpm2-tss ima-evm-utils python-pip-wheel python3 python3-libs python3-libcomps python3-gpg gzip cracklib libpwquality pam libarchive rpm rpm-libs libmodulemd libsolv libdnf python3-libdnf python3-hawkey rpm-build-libs rpm-sign-libs python3-rpm python3-dnf dnf yum sssd-client sudo util-linux util-linux-user tar fedora-repos-modular rootfiles pam-libs systemd-pam authselect-libs passwd libevent procps-ng findutils"
+    local core_packages="iptables-libs libgcc crypto-policies fedora-release-identity-container tzdata python-setuptools-wheel pcre2-syntax ncurses-base libssh-config libreport-filesystem dnf-data fedora-gpg-keys fedora-release-container fedora-repos fedora-release-common setup filesystem basesystem glibc-minimal-langpack glibc-common glibc ncurses-libs bash zlib bzip2-libs xz-libs libzstd sqlite-libs libdb gmp libcap libcom_err libgpg-error libuuid libxcrypt popt libxml2 readline lua-libs elfutils-libelf file-libs expat libattr libacl libffi p11-kit libsmartcols libstdc++ libunistring libidn2 libassuan libgcrypt alternatives json-c keyutils-libs libcap-ng audit-libs libsepol libtasn1 p11-kit-trust lz4-libs pcre grep pcre2 libselinux sed libsemanage shadow-utils libutempter vim-minimal libpsl libcomps libmetalink libksba mpfr nettle gnutls elfutils-default-yama-scope elfutils-libs gdbm-libs libbrotli libeconf libgomp libnghttp2 libsigsegv gawk libsss_idmap libsss_nss_idmap libverto libyaml npth coreutils-common openssl-libs coreutils ca-certificates krb5-libs libtirpc libblkid libmount glib2 libnsl2 systemd-libs zchunk-libs libusb libfdisk cyrus-sasl-lib openldap gnupg2 gpgme libssh libcurl curl librepo tpm2-tss ima-evm-utils python-pip-wheel python3 python3-libs python3-libcomps python3-gpg gzip cracklib libpwquality pam libarchive rpm rpm-libs libmodulemd libsolv libdnf python3-libdnf python3-hawkey rpm-build-libs rpm-sign-libs python3-rpm python3-dnf dnf yum sssd-client sudo util-linux util-linux-user tar fedora-repos-modular rootfiles systemd-pam authselect-libs passwd libevent procps-ng findutils"
     
     case "${SUITE}" in
     "34");;
     "35") core_packages="${core_packages} libfsverity libusbx";;
-    "36") core_packages="${core_packages} libfsverity";;
+    "36") core_packages="${core_packages} libfsverity pam-libs";;
     esac
 
     local repo_url
@@ -152,21 +152,25 @@ do_install()
     echo "exclude=grubby" >> "${CHROOT_DIR}"/etc/dnf/dnf.conf
     is_ok "fail" "done"
 
-    msg -n "Upgrading packages ..."
-    yum_repository
+    msg -n "Upgrading repository ..."
+    dnf_repository
+    is_ok "fail" "done"
     
     if [ "${SUITE}" = "36" ]; then 
-        cp "${COMPONENT_DIR}"/*-auth "${CHROOT_DIR}/etc/authselect/" 
-        cp "${COMPONENT_DIR}"/postlogin "${CHROOT_DIR}/etc/authselect/"
-        cp "${COMPONENT_DIR}"/dconf-* "${COMPONENT_DIR}"/etc/authselect/
+        cp "${COMPONENT_DIR}"/*-auth "${CHROOT_DIR}"/etc/authselect/
+        cp "${COMPONENT_DIR}"/postlogin "${CHROOT_DIR}"/etc/authselect/
+        cp "${COMPONENT_DIR}"/dconf-* "${CHROOT_DIR}"/etc/authselect/
         cp "${COMPONENT_DIR}"/authselect.conf "${COMPONENT_DIR}"/nsswitch.conf "${CHROOT_DIR}"/etc/authselect/
         cp "${COMPONENT_DIR}"/*-auth "${CHROOT_DIR}/etc/pam.d/" 
         cp "${COMPONENT_DIR}"/postlogin "${CHROOT_DIR}/etc/pam.d/"
-        
-        dnf_install "openldap*"
     fi
-    
-    chroot_exec -u root dnf -y upgrade --refresh
+
+    msg -n "Upgrading packages ..."
+    chroot_exec -u root dnf -y upgrade --refresh --nogpgcheck --skip-broken
+    is_ok "fail" "done"
+
+    msg -n "Installing minimal environment ..."
+    chroot_exec -u root dnf -y groupinstall "Minimal Install" --nogpgcheck --skip-broken
     is_ok "fail" "done"
 
     if [ -n "${EXTRA_PACKAGES}" ]; then
